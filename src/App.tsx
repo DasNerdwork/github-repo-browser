@@ -1,5 +1,5 @@
 import { gql, useLazyQuery  } from "@apollo/client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export const GET_USER_REPOS = gql`
   query UserRepos($owner: String!) {
@@ -30,6 +30,7 @@ export const GET_USER_REPOS = gql`
 export default function App() {
   const [username, setUsername] = useState("");
   const [owner, setOwner] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null); // Optional filter for languages
   const [getRepos, { data, loading, error }] = useLazyQuery(GET_USER_REPOS);
 
   const handleSearch = () => {
@@ -37,6 +38,24 @@ export default function App() {
     setOwner(username); // speichern, damit wir es anzeigen können
     getRepos({ variables: { owner: username } });
   };
+
+  const languages = useMemo(() => {
+    if (!data?.user?.repositories?.nodes) return [];
+    const set = new Set<string>();
+    data.user.repositories.nodes.forEach((repo: any) => {
+      repo.languages.edges.forEach((edge: any) => set.add(edge.node.name));
+    });
+    return Array.from(set);
+  }, [data]);
+
+  const filteredRepos = useMemo(() => {
+    if (!data?.user?.repositories?.nodes) return [];
+    if (!selectedLanguage) return data.user.repositories.nodes;
+    return data.user.repositories.nodes.filter((repo: any) =>
+      repo.languages.edges.some((edge: any) => edge.node.name === selectedLanguage)
+    );
+  }, [data, selectedLanguage]);
+
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -57,6 +76,29 @@ export default function App() {
           Search
         </button>
       </div>
+      
+      {/* Language Filter Buttons */}
+      <div className="flex gap-2 mb-6 justify-center flex-wrap">
+        <button
+          className={`px-3 py-1 rounded-full border ${
+            selectedLanguage === null ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
+          onClick={() => setSelectedLanguage(null)}
+        >
+          All
+        </button>
+        {languages.map((lang) => (
+          <button
+            key={lang}
+            className={`px-3 py-1 rounded-full border ${
+              selectedLanguage === lang ? "bg-blue-500 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => setSelectedLanguage(lang)}
+          >
+            {lang}
+          </button>
+        ))}
+      </div>
 
       {/* Loading / Error */}
       {loading && <p className="text-center text-gray-400">Loading…</p>}
@@ -71,7 +113,7 @@ export default function App() {
             Repositories of {owner}
           </h1>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {data.user.repositories.nodes.map((repo: any) => {
+            {filteredRepos.map((repo: any) => {
               const totalSize = repo.languages.totalSize || 1;
               return (
                 <div
