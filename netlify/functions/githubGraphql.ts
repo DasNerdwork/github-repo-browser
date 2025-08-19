@@ -1,4 +1,4 @@
-// netlify/functions/githubGraphql.ts
+// imports for netlify and .env key
 import type { Handler } from "@netlify/functions";
 import * as dotenv from "dotenv";
 
@@ -19,6 +19,7 @@ const handler: Handler = async (event) => {
 
   try {
     const body = event.body ? JSON.parse(event.body) : {};
+    // Flexible query and variables
     const { query, variables } = body;
 
     const res = await fetch("https://api.github.com/graphql", {
@@ -30,11 +31,13 @@ const handler: Handler = async (event) => {
       body: JSON.stringify({ query, variables }),
     });
 
-    const data = await res.text(); // passt Errors durch
+    // Get response as text for potential error messages in body
+    const data = await res.text();
     return { statusCode: res.status, body: data };
-  } catch (e: any) {
+  } catch (e: any) { // Catch in case of any internal errors
     return { statusCode: 500, body: e?.message ?? "Unknown error" };
   }
 };
 
+// Make sure netlify sees the function
 export { handler };
