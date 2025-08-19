@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { gql, useQuery } from "@apollo/client";
 
-function App() {
-  const [count, setCount] = useState(0)
+const GET_USER_REPOS = gql`
+  query GetUserRepos($login: String!) {
+    user(login: $login) {
+      repositories(first: 10, orderBy: { field: UPDATED_AT, direction: DESC }) {
+        nodes {
+          id
+          name
+          url
+          primaryLanguage {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export default function App() {
+  // hier testweise den GitHub-Nutzernamen hart codieren
+  const { data, loading, error } = useQuery(GET_USER_REPOS, {
+    variables: { login: "DasNerdwork" },
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <h1>Repos von DasNerdwork</h1>
+      <ul>
+        {data.user.repositories.nodes.map((repo: any) => (
+          <li key={repo.id}>
+            <a href={repo.url} target="_blank" rel="noreferrer">
+              {repo.name}
+            </a>{" "}
+            ({repo.primaryLanguage?.name ?? "No language"})
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
-
-export default App
