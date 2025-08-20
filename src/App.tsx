@@ -59,17 +59,29 @@ export default function App() {
   const availableLanguages = useMemo(() => {
     if (!filteredRepos.length) return [];
 
-    const set = new Set<string>();
+    // Zähle Häufigkeit der Sprachen in den aktuell sichtbaren Repos
+    const freqMap: Record<string, number> = {};
     filteredRepos.forEach((repo: any) => {
       repo.languages.edges.forEach((edge: any) => {
-        // Nur hinzufügen, wenn die Sprache noch nicht ausgewählt ist
-        if (!selectedLanguages.includes(edge.node.name)) {
-          set.add(edge.node.name);
-        }
+        freqMap[edge.node.name] = (freqMap[edge.node.name] || 0) + 1;
       });
     });
 
-    return Array.from(set);
+    // Alle Sprachen, die in den aktuell sichtbaren Repos vorkommen
+    const allLangs = Object.keys(freqMap);
+
+    // Ausgewählte behalten wir in der Reihenfolge aus selectedLanguages
+    const selected: string[] = selectedLanguages.filter((lang) =>
+      allLangs.includes(lang)
+    );
+
+    // Nicht ausgewählte
+    const notSelected: string[] = allLangs.filter((lang) => !selected.includes(lang));
+
+    // Nicht ausgewählte nach Häufigkeit sortieren
+    notSelected.sort((a, b) => (freqMap[b] || 0) - (freqMap[a] || 0));
+
+    return [...selected, ...notSelected];
   }, [filteredRepos, selectedLanguages]);
 
   return (
@@ -102,39 +114,31 @@ export default function App() {
             </button>
             {isDropdownOpen && (
               <div className="absolute mt-2 w-56 rounded-md shadow-lg bg-[var(--color-card)] ring-1 ring-black ring-opacity-5 z-10">
-                <div className="py-1">
-                  {availableLanguages.map((lang) => (
-                    <button
-                      key={lang}
-                      className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-base)] hover:bg-opacity-20 flex justify-between"
-                      onClick={() => {
-                        setSelectedLanguages((prev) => [...prev, lang]);
-                        setIsDropdownOpen(false);
-                      }}
-                    >
-                      {lang}
-                      {selectedLanguages.includes(lang) && <span>✔</span>}
-                    </button>
-                  ))}
+                <div className="py-1 max-h-60 overflow-y-auto">
+                  {availableLanguages.map((lang) => {
+                    const isSelected = selectedLanguages.includes(lang);
+
+                    return (
+                      <button
+                        key={lang}
+                        className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-base)] hover:bg-opacity-20 flex justify-between items-center"
+                        onClick={() => {
+                          setSelectedLanguages((prev) =>
+                            prev.includes(lang)
+                              ? prev.filter((l) => l !== lang) // entfernen
+                              : [...prev, lang] // ans Ende der Liste der ausgewählten Filters anhängen
+                          );
+                        }}
+                      >
+                        {lang}
+                        {isSelected && <span>✔</span>}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
           </div>
-        </div>
-
-        {/* Active Filters */}
-        <div className="flex gap-2 flex-wrap mb-4">
-          {selectedLanguages.map((lang) => (
-            <span
-              key={lang}
-              className="px-3 py-1 rounded-full bg-[var(--color-card)] text-[var(--color-text)] cursor-pointer"
-              onClick={() =>
-                setSelectedLanguages((prev) => prev.filter((l) => l !== lang))
-              }
-            >
-              {lang} ✕
-            </span>
-          ))}
         </div>
 
         {/* Loading / Error */}
