@@ -40,15 +40,6 @@ export default function App() {
     getRepos({ variables: { owner: username } });
   };
 
-  const languages = useMemo(() => {
-    if (!data?.user?.repositories?.nodes) return [];
-    const set = new Set<string>();
-    data.user.repositories.nodes.forEach((repo: any) => {
-      repo.languages.edges.forEach((edge: any) => set.add(edge.node.name));
-    });
-    return Array.from(set);
-  }, [data]);
-
   const filteredRepos = useMemo(() => {
     if (!data?.user?.repositories?.nodes) return [];
     if (selectedLanguages.length === 0) return data.user.repositories.nodes;
