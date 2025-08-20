@@ -30,7 +30,8 @@ export const GET_USER_REPOS = gql`
 export default function App() {
   const [username, setUsername] = useState("");
   const [owner, setOwner] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null); // Optional filter for languages
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]); // Optional multiple filters for languages
   const [getRepos, { data, loading, error }] = useLazyQuery(GET_USER_REPOS);
 
   const handleSearch = () => {
@@ -50,12 +51,30 @@ export default function App() {
 
   const filteredRepos = useMemo(() => {
     if (!data?.user?.repositories?.nodes) return [];
-    if (!selectedLanguage) return data.user.repositories.nodes;
-    return data.user.repositories.nodes.filter((repo: any) =>
-      repo.languages.edges.some((edge: any) => edge.node.name === selectedLanguage)
-    );
-  }, [data, selectedLanguage]);
+    if (selectedLanguages.length === 0) return data.user.repositories.nodes;
 
+    return data.user.repositories.nodes.filter((repo: any) =>
+      selectedLanguages.every((lang) =>
+        repo.languages.edges.some((edge: any) => edge.node.name === lang)
+      )
+    );
+  }, [data, selectedLanguages]);
+
+  const availableLanguages = useMemo(() => {
+    if (!filteredRepos.length) return [];
+
+    const set = new Set<string>();
+    filteredRepos.forEach((repo: any) => {
+      repo.languages.edges.forEach((edge: any) => {
+        // Nur hinzufügen, wenn die Sprache noch nicht ausgewählt ist
+        if (!selectedLanguages.includes(edge.node.name)) {
+          set.add(edge.node.name);
+        }
+      });
+    });
+
+    return Array.from(set);
+  }, [filteredRepos, selectedLanguages]);
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -77,27 +96,48 @@ export default function App() {
         </button>
       </div>
       
-      {/* Language Filter Buttons */}
-      <div className="flex gap-2 mb-6 justify-center flex-wrap">
-        <button
-          className={`px-3 py-1 rounded-full border ${
-            selectedLanguage === null ? "bg-blue-500 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setSelectedLanguage(null)}
-        >
-          All
-        </button>
-        {languages.map((lang) => (
-          <button
+      {/* Active Filters */}
+      <div className="flex gap-2 flex-wrap mb-4">
+        {selectedLanguages.map((lang) => (
+          <span
             key={lang}
-            className={`px-3 py-1 rounded-full border ${
-              selectedLanguage === lang ? "bg-blue-500 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setSelectedLanguage(lang)}
+            className="px-3 py-1 rounded-full bg-blue-500 text-white cursor-pointer"
+            onClick={() =>
+              setSelectedLanguages((prev) => prev.filter((l) => l !== lang))
+            }
           >
-            {lang}
-          </button>
+            {lang} ✕
+          </span>
         ))}
+      </div>
+
+      {/* Language Filter Dropdown */}
+      <div className="relative inline-block text-left mb-6">
+        <button
+          onClick={() => setIsDropdownOpen((prev) => !prev)}
+          className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          Filter Languages
+        </button>
+        {isDropdownOpen && (
+          <div className="absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+            <div className="py-1">
+              {availableLanguages.map((lang) => (
+                <button
+                  key={lang}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex justify-between"
+                  onClick={() => {
+                    setSelectedLanguages((prev) => [...prev, lang])
+                    setIsDropdownOpen(false);
+                  }}
+                >
+                  {lang}
+                  {selectedLanguages.includes(lang) && <span>✔</span>}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Loading / Error */}
