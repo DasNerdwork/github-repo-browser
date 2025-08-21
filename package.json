@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest"
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
@@ -31,6 +32,10 @@
     "@storybook/addon-onboarding": "^9.1.2",
     "@storybook/addon-vitest": "^9.1.2",
     "@storybook/react-vite": "^9.1.2",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",

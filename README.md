@@ -1,69 +1,88 @@
-# React + TypeScript + Vite
+# GitHub Repo Browser
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Vite + TypeScript project to browse GitHub repositories for a given user.  
+Displays repository details, top programming languages, and allows filtering by languages. Includes a theme toggle and multiple UI language support (i18next).
 
-Currently, two official plugins are available:
+## Features
+- Search GitHub repositories by username
+- Filter repositories by programming languages
+- Dark/light mode toggle
+- Multilingual UI support (`en`, `de`, `es`, `fr`)
+- Repository cards with top language breakdown
+- Netlify Function to securely query GitHub GraphQL API
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## Expanding the ESLint configuration
+### Prerequisites
+- Node.js >= 18
+- npm or yarn
+- GitHub personal access token for GraphQL API (stored in `.env` as `GITHUB_TOKEN`)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+Clone the repository:
+```bash
+git clone <repo-url>
+cd github-repo-browser
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Install dependencies:
+```bash
+npm install
 ```
+
+Create a .env file in the root directory:
+```bash
+GITHUB_TOKEN=your_personal_github_token
+```
+
+### Running the Project
+
+Start the development server:
+```bash
+npm run dev
+```
+or if deployed via netfliy
+```bash
+netlify dev
+```
+
+The app will be available at http://localhost:5173, https://localhost:8888
+(or the port Vite/Netlify shows).
+
+### Running Storybook
+
+Storybook is set up for component development:
+```bash
+npm run storybook
+```
+Open the Storybook interface in your browser to view all components and interact with them in isolation, usually on https://localhost:6006
+
+### Running Tests
+
+The project uses Vitest + Testing Library for unit and integration tests:
+```bash
+npm run test
+```
+This will run all tests in the `src/components/__tests__` folder and output results to the terminal.
+
+### Project Structure
+
+```
+src/
+  components/ # React components
+  stories/ # Storybook stories
+  types.ts # TypeScript type definitions
+  apollo/ # Apollo client
+  App.tsx # Main app
+  netlify/functions/ # Netlify graphql
+  index.css # Tailwind input & config
+  locales/ # Translations
+```
+
+### Future Improvements
+
+- Improve filter dropdown hover behavior so it doesn’t interfere with repository cards below
+- Redesign the intro section to be more visually appealing
+- Add more detailed information on repository cards (stars, forks, last updated, etc.)
+- Support pagination for users with more than 100 repositories
+- Add animations and better mobile responsiveness
