@@ -1,0 +1,15 @@
+{
+  "projectTitle": "Explorador de Repositorios de GitHub",
+  "searchPlaceholder": "Introduce el nombre de usuario de GitHub",
+  "filterLanguages": "Filtrar por idiomas",
+  "introTitle": "Descubre Repositorios de GitHub",
+  "introDescription": "Un pequeño proyecto que muestra cómo consultar datos de GitHub usando <strong>GraphQL</strong>. Se pueden buscar usuarios y sus repositorios y filtrarlos por lenguajes de programación utilizando <strong>React</strong>, <strong>TypeScript</strong>, <strong>Storybook</strong>, <strong>TailwindCSS</strong>, <strong>Netlify</strong> y <strong>Apollo Client</strong>.",
+  "loading": "Cargando...",
+  "error": "Error",
+  "language": {
+    "en": "English",
+    "de": "Deutsch",
+    "es": "Español",
+    "fr": "Francais"
+  }
+}

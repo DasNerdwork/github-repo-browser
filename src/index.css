@@ -4,14 +4,40 @@
 
 @layer theme {
   :root {
-    --color-base: #ffffff;
-    --color-card: #f5f5f5;
-    --color-text: #111111;
+    --color-base: #d6d6cc;
+    --color-card: #edeee9;
+    --color-text: #060f13;
+    --color-primary: #cb9150;
   }
 
   .dark {
     --color-base: #060f14;
     --color-card: #0d1e26;
     --color-text: #f4f1d0;
+    --color-primary: #0e558c;
   }
+}
+
+html {
+  overflow-y: scroll;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: .75rem;
+  height: .75rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #d6d6cc;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cb9150;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #f4f1d0;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #0e558c;
 }
