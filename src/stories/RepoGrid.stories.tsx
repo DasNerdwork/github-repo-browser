@@ -1,4 +1,4 @@
-import { RepoCard } from "../components/RepoCard";
+import { RepoGrid } from "../components/RepoGrid";
 import type { Meta, StoryObj } from "@storybook/react";
 import type { Repository } from "../types";
 
@@ -19,19 +19,28 @@ const mockRepo: Repository = {
   },
 };
 
-const meta: Meta<typeof RepoCard> = {
-  title: "Components/RepoCard",
-  component: RepoCard,
+const meta: Meta<typeof RepoGrid> = {
+  title: "Components/RepoGrid",
+  component: RepoGrid,
 };
 
 export default meta;
 
-type Story = StoryObj<typeof RepoCard>;
+type Story = StoryObj<typeof RepoGrid>;
 
 export const Default: Story = {
-  render: () => <RepoCard repo={mockRepo} />,
+  render: () => (
+    <RepoGrid
+      repos={[mockRepo, { ...mockRepo, name: "Another Repo" }, { ...mockRepo, name: "Repo Three" }]}
+      hasSearched={true}
+    />
+  ),
 };
 
-export const PrivateRepo: Story = {
-  render: () => <RepoCard repo={{ ...mockRepo, isPrivate: true, name: "Private Repo" }} />,
+export const EmptyState: Story = {
+  render: () => <RepoGrid repos={[]} hasSearched={true} />,
+};
+
+export const LoadingState: Story = {
+  render: () => <RepoGrid repos={[]} loading={true} hasSearched={true} />,
 };

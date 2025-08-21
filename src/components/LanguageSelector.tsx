@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Languages } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+// Define the supported language codes
 type Language = "en" | "de" | "es" | "fr";
 
 interface Props {
@@ -10,8 +11,8 @@ interface Props {
 }
 
 export default function LanguageSelector({ current, onChange }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false); // Local state whether dropdown is open
+  const ref = useRef<HTMLDivElement>(null); // Ref to the wrapper div to detect outside clicks
   const { t, i18n } = useTranslation();
 
   const languages: { code: Language; labelKey: string }[] = [
@@ -21,7 +22,7 @@ export default function LanguageSelector({ current, onChange }: Props) {
     { code: "fr", labelKey: "language.fr" },
   ];
 
-  // Klick außerhalb schließt Dropdown
+  // Close dropdown when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -40,6 +41,7 @@ export default function LanguageSelector({ current, onChange }: Props) {
 
   return (
     <div className="relative" ref={ref}>
+      {/* Button to toggle dropdown */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="p-2 rounded-full hover:bg-[var(--color-card)]/30 transition flex items-center"
@@ -48,6 +50,7 @@ export default function LanguageSelector({ current, onChange }: Props) {
         <Languages size={20} className="text-[var(--color-primary-text)]/90" />
       </button>
 
+      {/* Dropdown menu */}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-36 bg-[var(--color-card)] rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-20">
           {languages.map((lang) => (
@@ -58,7 +61,7 @@ export default function LanguageSelector({ current, onChange }: Props) {
                 ${current === lang.code ? "bg-[var(--color-base)]/20 font-semibold" : "hover:bg-[var(--color-base)]/20"}`}
             >
               {t(lang.labelKey)}
-              {current === lang.code && <span className="text-green-500 font-bold">✔</span>}
+              {current === lang.code && <span className="font-bold">✔</span>}
             </button>
           ))}
         </div>

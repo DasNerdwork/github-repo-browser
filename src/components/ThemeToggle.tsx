@@ -7,6 +7,7 @@ const ThemeToggle = () => {
     return saved ? saved === "dark" : true; // default dark
   });
 
+  // Effect to apply the theme whenever it changes & save in localStorage
   useEffect(() => {
     const html = document.documentElement;
 
@@ -24,6 +25,7 @@ const ThemeToggle = () => {
       onClick={() => setDark(!dark)}
       className="p-2 rounded-full hover:bg-[var(--color-card)] transition"
     >
+      {/* Icon depending on mode */}
       {dark ? 
         <Sun 
           size={20}

@@ -2,16 +2,16 @@ import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface SearchBarProps {
-  username: string;
+  username: string; // current username input
   setUsername: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: () => void;
-  isDropdownOpen: boolean;
-  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  availableLanguages: string[];
-  selectedLanguages: string[];
+  handleSearch: () => void; // callback to perform search
+  isDropdownOpen: boolean; // filter open?
+  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>; 
+  availableLanguages: string[]; // list of available programming languages
+  selectedLanguages: string[]; // currently selected language filters
   setSelectedLanguages: React.Dispatch<React.SetStateAction<string[]>>;
-  owner: string;
-  hasSearched: boolean;
+  owner: string; // github owner username
+  hasSearched: boolean; // flag for intro
 }
 
 export const SearchBar = ({
@@ -30,6 +30,8 @@ export const SearchBar = ({
 
   return (
     <div className={`w-full flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${hasSearched ? "translate-y-0" : "translate-y-[25vh]"}`}>
+
+      {/* Search input and button */}
       <div className={`w-full flex flex-wrap gap-4 justify-center items-center mb-10`}>
         <div className="flex flex-1 max-w-lg rounded-lg shadow-sm overflow-hidden">
           <input
@@ -49,6 +51,7 @@ export const SearchBar = ({
           </button>
         </div>
 
+        {/* Language filter dropdown */}
         {(owner || availableLanguages.length > 0) && (
           <div className={`relative inline-block text-left transition-all duration-700 ease-in-out ${hasSearched ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
             <button
@@ -57,6 +60,8 @@ export const SearchBar = ({
             >
               {t("filterLanguages")}
             </button>
+            
+            {/* Dropdown menu */}
             {isDropdownOpen && (
               <div className="absolute mt-2 w-56 rounded-lg shadow-md bg-[var(--color-card)] z-10">
                 <div className="py-1 max-h-60 overflow-y-auto custom-scrollbar !p-0">

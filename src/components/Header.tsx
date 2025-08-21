@@ -10,12 +10,14 @@ export const Header = ({ currentLanguage, setCurrentLanguage }: HeaderProps) => 
   const { t } = useTranslation();
   return (
     <div className="flex justify-between items-center mb-8 gap-2">
+      {/* Project Titel */}
       <h1 className="text-2xl font-bold text-[var(--color-text)]">
         <a href="/" className="cursor-pointer">
           {t("projectTitle")}
         </a>
       </h1>
-
+      
+      {/* Upper-Right Container for LangSelect & ThemeToggle */}
       <div className="flex items-center gap-2">
         <LanguageSelector current={currentLanguage} onChange={setCurrentLanguage} />
         <ThemeToggle />
