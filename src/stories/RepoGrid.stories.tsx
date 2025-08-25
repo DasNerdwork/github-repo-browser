@@ -33,14 +33,15 @@ export const Default: Story = {
     <RepoGrid
       repos={[mockRepo, { ...mockRepo, name: "Another Repo" }, { ...mockRepo, name: "Repo Three" }]}
       hasSearched={true}
+      setIsDropdownOpen={() => {}}
     />
   ),
 };
 
 export const EmptyState: Story = {
-  render: () => <RepoGrid repos={[]} hasSearched={true} />,
+  render: () => <RepoGrid repos={[]} hasSearched={true} setIsDropdownOpen={() => {}} />,
 };
 
 export const LoadingState: Story = {
-  render: () => <RepoGrid repos={[]} loading={true} hasSearched={true} />,
+  render: () => <RepoGrid repos={[]} loading={true} hasSearched={true} setIsDropdownOpen={() => {}} />,
 };

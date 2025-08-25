@@ -17,10 +17,9 @@ export default defineConfig({
   ],
   test: {
     projects: [{
+      // Storybook-Tests
       extends: true,
       plugins: [,
-      // The plugin will run tests for the stories defined in your Storybook config
-      // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
       storybookTest({
         configDir: path.join(dirname, '.storybook')
       })],
@@ -35,6 +34,26 @@ export default defineConfig({
           }]
         },
         setupFiles: ['.storybook/vitest.setup.ts']
+      }
+    },
+    // React/jsdom-Tests
+    {
+      test: {
+        environment: "jsdom",
+        globals: true,
+        include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+        exclude: ['**/__stories__/**/*', '**/__tests__/storybook/**/*'],
+        setupFiles: ['src/setupTests.ts'],
+      },
+    },
+    // Node/Netlify Function-Tests
+    {
+      test: {
+        name: 'functions',
+        environment: 'node',
+        globals: true,
+        include: ['netlify/functions/**/*.test.ts'],
+        setupFiles: [],
       }
     }]
   }

@@ -61,12 +61,14 @@ export const SearchBar = ({
           />
           <button
             onClick={handleSearch}
+            aria-label={t("search")}
             className="px-4 py-3 bg-[var(--color-primary)] text-[var(--color-primary-text)] font-medium hover:bg-[var(--color-primary)]/80 transition-shadow shadow-sm hover:shadow-md"
           >
             <Search
               size={20}
               strokeWidth={2.5}
               className="text-[var(--color-primary-text)]/90"
+              aria-hidden="true"
             />
           </button>
         </div>

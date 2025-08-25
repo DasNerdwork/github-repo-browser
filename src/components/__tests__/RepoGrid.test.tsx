@@ -20,13 +20,13 @@ const mockRepos = [
 
 describe("RepoGrid Component", () => {
   it("renders all repositories", () => {
-    render(<RepoGrid repos={mockRepos} loading={false} hasSearched={true} />);
+    render(<RepoGrid repos={mockRepos} loading={false} hasSearched={true} setIsDropdownOpen={() => {}} />);
     expect(screen.getByText("Repo1")).toBeInTheDocument();
     expect(screen.getByText("Repo2")).toBeInTheDocument();
   });
 
   it("renders noReposFound message when empty", () => {
-    render(<RepoGrid repos={[]} loading={false} hasSearched={true} />);
+    render(<RepoGrid repos={[]} loading={false} hasSearched={true} setIsDropdownOpen={() => {}} />);
     expect(screen.getByText(/noReposFound/i)).toBeInTheDocument();
   });
 });

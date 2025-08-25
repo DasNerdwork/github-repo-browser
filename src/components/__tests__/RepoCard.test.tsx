@@ -17,7 +17,7 @@ const mockRepo = {
 
 describe("RepoCard Component", () => {
   it("renders repo name, description and languages", () => {
-    render(<RepoCard repo={mockRepo} />);
+    render(<RepoCard repo={mockRepo} setIsDropdownOpen={() => {}} />);
     expect(screen.getByText("Test Repo")).toBeInTheDocument();
     expect(screen.getByText("A test repository")).toBeInTheDocument();
     expect(screen.getByText("TypeScript")).toBeInTheDocument();
@@ -25,7 +25,7 @@ describe("RepoCard Component", () => {
   });
 
   it("renders as link for public repo", () => {
-    render(<RepoCard repo={mockRepo} />);
+    render(<RepoCard repo={mockRepo} setIsDropdownOpen={() => {}} />);
     const link = screen.getByRole("link");
     expect(link).toHaveAttribute("href", "https://github.com/test/test");
   });

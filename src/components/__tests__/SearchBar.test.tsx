@@ -19,8 +19,14 @@ describe("SearchBar Component", () => {
 
   it("renders input and search button", () => {
     render(<SearchBar {...defaultProps} />);
+
     expect(screen.getByRole("textbox")).toBeInTheDocument();
-    expect(screen.getByRole("button")).toBeInTheDocument();
+
+    const searchButton = screen.getByRole("button", { name: /search/i });
+    expect(searchButton).toBeInTheDocument();
+
+    const filterButton = screen.getByRole("button", { name: /filterLanguages/i });
+    expect(filterButton).toBeInTheDocument();
   });
 
   it("calls handleSearch on Enter key", async () => {
