@@ -9,9 +9,10 @@ interface LanguageSummary {
 
 interface RepoCardProps {
   repo: Repository;
+  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const RepoCard = ({ repo }: RepoCardProps) => {
+export const RepoCard = ({ repo, setIsDropdownOpen }: RepoCardProps) => {
   // Total size of all languages
   const totalSize = repo.languages.totalSize || 1;  // fallback to 1 to prevent /0
 
@@ -46,6 +47,7 @@ export const RepoCard = ({ repo }: RepoCardProps) => {
         href: repo.url,
         target: "_blank",
         rel: "noopener noreferrer",
+        onMouseEnter: () => setIsDropdownOpen(false)
       })}
       title={repo.isPrivate ? "Private Repository" : undefined}
       className={`block bg-[var(--color-card)] rounded-lg shadow-lg px-4 pb-4

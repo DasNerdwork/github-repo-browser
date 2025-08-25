@@ -64,7 +64,12 @@ export default function App() {
         {error && <p className="text-center text-red-500">{t("error")}: {error.message}</p>}
 
         {/* Display filtered repositories */}
-        <RepoGrid repos={filteredRepos} loading={loading} hasSearched={hasSearched} />
+        <RepoGrid
+          repos={filteredRepos}
+          loading={loading}
+          hasSearched={hasSearched}
+          setIsDropdownOpen={setIsDropdownOpen}
+        />
       </div>
     </div>
   );

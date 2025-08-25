@@ -13,6 +13,7 @@ export interface LanguageEdge {
 // Props for a RepoCard component
 export interface RepoCardProps {
   repo: Repository;     // The repository to display
+  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>; // Function to control dropdown visibility
 }
 
 // Props for a language filter component

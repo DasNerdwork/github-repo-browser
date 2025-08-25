@@ -6,9 +6,10 @@ interface RepoGridProps {
   repos: Repository[];
   loading?: boolean; // data still loading?
   hasSearched?: boolean; // user performed search?
+  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>; // used to hide filter dropdown on card animation
 }
 
-export const RepoGrid = ({ repos, loading, hasSearched }: RepoGridProps) => {
+export const RepoGrid = ({ repos, loading, hasSearched, setIsDropdownOpen }: RepoGridProps) => {
   // only render if searched and data is loaded
   if (!hasSearched || loading) return null;
 
@@ -19,7 +20,11 @@ export const RepoGrid = ({ repos, loading, hasSearched }: RepoGridProps) => {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {repos.map((repo) => (
-        <RepoCard key={repo.name} repo={repo} />
+        <RepoCard
+          key={repo.name}
+          repo={repo}
+          setIsDropdownOpen={setIsDropdownOpen}
+        />
       ))}
     </div>
   );

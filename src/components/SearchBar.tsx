@@ -1,3 +1,4 @@
+import { useRef, useEffect } from "react";
 import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -27,12 +28,27 @@ export const SearchBar = ({
   hasSearched,
 }: SearchBarProps) => {
   const { t } = useTranslation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Outside click handler
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [setIsDropdownOpen]);
 
   return (
-    <div className={`w-full flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${hasSearched ? "translate-y-0" : "translate-y-[25vh]"}`}>
-
+    <div
+      className={`w-full flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${
+        hasSearched ? "translate-y-0" : "translate-y-[25vh]"
+      }`}
+    >
       {/* Search input and button */}
-      <div className={`w-full flex flex-wrap gap-4 justify-center items-center mb-10`}>
+      <div className="w-full flex flex-wrap gap-4 justify-center items-center mb-10">
         <div className="flex flex-1 max-w-lg rounded-lg shadow-sm overflow-hidden">
           <input
             type="text"
@@ -47,20 +63,29 @@ export const SearchBar = ({
             onClick={handleSearch}
             className="px-4 py-3 bg-[var(--color-primary)] text-[var(--color-primary-text)] font-medium hover:bg-[var(--color-primary)]/80 transition-shadow shadow-sm hover:shadow-md"
           >
-            <Search size={20} strokeWidth={2.5} className="text-[var(--color-primary-text)]/90" />
+            <Search
+              size={20}
+              strokeWidth={2.5}
+              className="text-[var(--color-primary-text)]/90"
+            />
           </button>
         </div>
 
         {/* Language filter dropdown */}
         {(owner || availableLanguages.length > 0) && (
-          <div className={`relative inline-block text-left transition-all duration-700 ease-in-out ${hasSearched ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+          <div
+            ref={dropdownRef}
+            className={`relative inline-block text-left transition-all duration-700 ease-in-out ${
+              hasSearched ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
+          >
             <button
               onClick={() => setIsDropdownOpen((prev) => !prev)}
               className="inline-flex justify-center min-w-44 items-center rounded-lg px-4 py-3 bg-[var(--color-primary)] text-[var(--color-text)] hover:bg-[var(--color-primary)]/80 transition-shadow shadow-sm hover:shadow-md"
             >
               {t("filterLanguages")}
             </button>
-            
+
             {/* Dropdown menu */}
             {isDropdownOpen && (
               <div className="absolute mt-2 w-56 rounded-lg shadow-md bg-[var(--color-card)] z-10">
@@ -71,10 +96,16 @@ export const SearchBar = ({
                       <button
                         key={lang}
                         className={`w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex justify-between items-center transition
-                          ${isSelected ? "bg-[var(--color-card)]/80 font-semibold" : "hover:bg-[var(--color-base)] hover:bg-opacity-80"}`}
+                          ${
+                            isSelected
+                              ? "bg-[var(--color-card)]/80 font-semibold"
+                              : "hover:bg-[var(--color-base)] hover:bg-opacity-80"
+                          }`}
                         onClick={() => {
                           setSelectedLanguages((prev) =>
-                            prev.includes(lang) ? prev.filter((l) => l !== lang) : [...prev, lang]
+                            prev.includes(lang)
+                              ? prev.filter((l) => l !== lang)
+                              : [...prev, lang]
                           );
                         }}
                       >
