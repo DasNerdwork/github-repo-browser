@@ -29,9 +29,9 @@ export default meta;
 type Story = StoryObj<typeof RepoCard>;
 
 export const Default: Story = {
-  render: () => <RepoCard repo={mockRepo} />,
+  render: () => <RepoCard repo={mockRepo} setIsDropdownOpen={() => {}} />,
 };
 
 export const PrivateRepo: Story = {
-  render: () => <RepoCard repo={{ ...mockRepo, isPrivate: true, name: "Private Repo" }} />,
+  render: () => <RepoCard repo={{ ...mockRepo, isPrivate: true, name: "Private Repo" }} setIsDropdownOpen={() => {}} />,
 };
