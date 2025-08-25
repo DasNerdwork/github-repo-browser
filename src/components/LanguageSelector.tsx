@@ -52,7 +52,7 @@ export default function LanguageSelector({ current, onChange }: Props) {
 
       {/* Dropdown menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-36 bg-[var(--color-card)] rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-20">
+        <div className="absolute right-0 mt-2 w-36 bg-[var(--color-card)] rounded-md shadow-lg z-20">
           {languages.map((lang) => (
             <button
               key={lang.code}
