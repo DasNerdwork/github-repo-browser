@@ -1,40 +1,10 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Header, Intro, SearchBar, RepoGrid } from "./components";
 import type { GitHubData } from "./types";
 import { useFilteredRepos, useAvailableLanguages } from "./hooks";
-
-
-// GraphQL query to fetch a user's repositories with their top languages
-export const GET_USER_REPOS = gql`
-  query UserRepos($owner: String!) {
-    user(login: $owner) {
-      repositories(first: 100, orderBy: { field: UPDATED_AT, direction: DESC }) {
-        nodes {
-          name
-          description
-          url
-          isPrivate
-          languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
-            totalSize
-            edges {
-              size
-              node {
-                name
-                color
-              }
-            }
-          }
-        }
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-      }
-    }
-  }
-`;
+import { GET_USER_REPOS } from "./apollo/queries/repos";
 
 export default function App() {
   const { t } = useTranslation();
