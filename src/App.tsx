@@ -37,7 +37,7 @@ export default function App() {
   const availableLanguages = useAvailableLanguages(filteredRepos, selectedLanguages);
 
     return (
-    <div className="min-h-screen flex flex-col w-full bg-[var(--color-base)] text-[var(--color-text)]">
+    <div className="min-h-screen flex flex-col w-full">
       <div className="max-w-6xl mx-auto p-6 flex flex-col flex-grow">
         {/* Header */}
         <Header currentLanguage={currentLanguage} setCurrentLanguage={setCurrentLanguage} />

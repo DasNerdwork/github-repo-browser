@@ -2,6 +2,12 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer base {
+  html, body {
+    @apply bg-[var(--color-base)] text-[var(--color-text)] min-h-screen;
+  }
+}
+
 @layer theme {
   :root {
     --color-base: #d6d6cc;
