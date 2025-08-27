@@ -1,4 +1,4 @@
-import { BrowserRouter as Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import App from "./App";
 import { Imprint } from "./pages/Imprint";
 import { Privacy } from "./pages/Privacy";
