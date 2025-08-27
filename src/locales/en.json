@@ -1,6 +1,6 @@
 {
   "projectTitle": "GitHub Repo Browser",
-  "searchPlaceholder": "Enter GitHub username",
+  "searchPlaceholder": "Enter GitHub username (e.g. DasNerdwork)",
   "filterLanguages": "Filter languages",
   "introTitle": "Discover GitHub Repositories",
   "introDescription": "A small project that shows how to query GitHub data using <strong>GraphQL</strong>. Users and their repositories can be searched and filtered by programming languages using <strong>React</strong>, <strong>TypeScript</strong>, <strong>Storybook</strong>, <strong>TailwindCSS</strong>, <strong>Netlify</strong>, and <strong>Apollo Client</strong>.",

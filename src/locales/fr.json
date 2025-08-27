@@ -1,6 +1,6 @@
 {
   "projectTitle": "Navigateur de dépôts GitHub",
-  "searchPlaceholder": "Entrez le nom d'utilisateur GitHub",
+  "searchPlaceholder": "Entrez le nom d'utilisateur GitHub (ex. DasNerdwork)",
   "filterLanguages": "Filtrer les langues",
   "introTitle": "Découvrez les dépôts GitHub",
   "introDescription": "Un petit projet qui montre comment interroger les données GitHub avec <strong>GraphQL</strong>. Les utilisateurs et leurs dépôts peuvent être recherchés et filtrés par langage de programmation en utilisant <strong>React</strong>, <strong>TypeScript</strong>, <strong>Storybook</strong>, <strong>TailwindCSS</strong>, <strong>Netlify</strong> et <strong>Apollo Client</strong>.",
