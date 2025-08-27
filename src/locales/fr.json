@@ -7,6 +7,9 @@
   "loading": "Chargement...",
   "error": "Erreur",
   "noReposFound": "Aucun dépôt trouvé.",
+  "copyright": "Copyright © {{year}} DasNerdwork",
+  "imprint": "Mentions légales",
+  "privacy": "Politique de confidentialité",
   "language": {
     "en": "English",
     "de": "Deutsch",

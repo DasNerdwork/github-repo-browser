@@ -7,6 +7,9 @@
   "loading": "Loading...",
   "error": "Error",
   "noReposFound": "No repositories found.",
+  "copyright": "Copyright © {{year}} DasNerdwork",
+  "imprint": "Imprint",
+  "privacy": "Privacy",
   "language": {
     "en": "English",
     "de": "Deutsch",
